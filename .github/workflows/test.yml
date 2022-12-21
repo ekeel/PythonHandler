@@ -27,4 +27,8 @@ jobs:
       - name: Validate Nuget Package Creation
         run: |
             files=( ./PythonHandler/bin/Release/*.nupkg )
-            ls ./PythonHandler/bin/Release/*.nupkg
+            if test -z "$var" 
+            then
+                echo "ERROR Nuget package not found"
+                exit 1
+            fi
