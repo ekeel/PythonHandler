@@ -24,11 +24,3 @@ jobs:
         run: dotnet build --no-restore -c Release
       - name: Test
         run: dotnet test --no-build --verbosity normal -c Release
-      - name: Validate Nuget Package Creation
-        run: |
-            files=( ./PythonHandler/bin/Release/*.nupkg )
-            if test -z "$var" 
-            then
-                echo "ERROR Nuget package not found"
-                exit 1
-            fi
