@@ -20,6 +20,8 @@ jobs:
       - name: Test
         run: dotnet test --no-build --verbosity normal -c Release
       - name: Push to Nuget
+        with:
+          API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: |
             files=( ./PythonHandler/bin/Release/*.nupkg )
-            dotnet nuget push "${files[0]}" --api-key oy2mrjxofgvoz4l53ezahlwuco3ntjuurb3coft7d6gbv4 --source https://api.nuget.org/v3/index.json
+            dotnet nuget push "${files[0]}" --api-key "{API_KEY}" --source https://api.nuget.org/v3/index.json
