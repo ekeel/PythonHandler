@@ -4,11 +4,27 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>Dotnet$(AssemblyName)</PackageId>
+    <Title>DotNet Python Script Handler</Title>
+    <Authors>ekeel</Authors>
+    <Company />
+    <Product>Dotnet$(AssemblyName)</Product>
+    <PackageProjectUrl>https://github.com/ekeel/PythonHandler</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ekeel/PythonHandler</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>python</PackageTags>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+	<DocumentationMarkdown>..\Readme.md</DocumentationMarkdown>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="IronPython" Version="3.4.0" />
     <PackageReference Include="IronPython.StdLib" Version="3.4.0" />
+    <PackageReference Include="Vsxmd" Version="1.4.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>
