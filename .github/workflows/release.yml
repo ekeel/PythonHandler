@@ -2,6 +2,8 @@ name: Release
 on:
   push:
     branches: ["main"]
+  workflow_dispatch:
+  
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,8 +16,10 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
       - name: Build
-        run: dotnet build --no-restore
+        run: dotnet build --no-restore -c Release
       - name: Test
-        run: dotnet test --no-build --verbosity normal
+        run: dotnet test --no-build --verbosity normal -c Release
       - name: Push to Nuget
-        run: dotnet nuget push *.nupkg --api-key oy2mrjxofgvoz4l53ezahlwuco3ntjuurb3coft7d6gbv4 --source https://api.nuget.org/v3/index.json
+        run: |
+            files=( ./PythonHandler/bin/Release/*.nupkg )
+            dotnet nuget push "${files[0]}" --api-key oy2mrjxofgvoz4l53ezahlwuco3ntjuurb3coft7d6gbv4 --source https://api.nuget.org/v3/index.json
