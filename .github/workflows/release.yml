@@ -17,3 +17,5 @@ jobs:
         run: dotnet build --no-restore
       - name: Test
         run: dotnet test --no-build --verbosity normal
+      - name: Push to Nuget
+        run: dotnet nuget push *.nupkg --api-key oy2mrjxofgvoz4l53ezahlwuco3ntjuurb3coft7d6gbv4 --source https://api.nuget.org/v3/index.json
