@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -16,8 +16,9 @@
     <PackageTags>python</PackageTags>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
 	<DocumentationMarkdown>..\Readme.md</DocumentationMarkdown>
-	<Version>1.0.2</Version>
+	<Version>1.0.3</Version>
 	<PackageLicenseFile>License.txt</PackageLicenseFile>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,6 +38,8 @@
     </None>
     <None Update="README.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 
