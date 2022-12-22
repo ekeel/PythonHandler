@@ -20,4 +20,10 @@
     <ProjectReference Include="..\PythonHandler\PythonHandler.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="resources\test_file.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
