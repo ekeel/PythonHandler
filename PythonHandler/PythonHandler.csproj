@@ -14,8 +14,8 @@
     <RepositoryUrl>https://github.com/ekeel/PythonHandler</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>python</PackageTags>
+	  <Version>1.0.4</Version>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
-	<Version>1.0.3</Version>
 	<PackageLicenseFile>License.txt</PackageLicenseFile>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>

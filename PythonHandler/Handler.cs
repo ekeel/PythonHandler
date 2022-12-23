@@ -36,6 +36,17 @@ namespace PythonHandler
 		}
 
 		/// <summary>
+		/// This method appends a search path to the engine.
+		/// </summary>
+		/// <param name="searchPath"><c>searchPath</c> is the new search path to append to the engine.</param>
+		public void AppendSearchPath(string searchPath) {
+			var searchPaths = _scriptEngine.GetSearchPaths();
+			searchPaths.Add(searchPath);
+
+			_scriptEngine.SetSearchPaths(searchPaths);
+		}
+
+		/// <summary>
 		/// This method runs a string of Python code.
 		/// </summary>
 		/// <param name="code"><c>code</c> is the Python string to execute.</param>
