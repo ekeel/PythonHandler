@@ -1,0 +1,14 @@
+name: Example Run
+on:
+  workflow_dispatch:
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
+      - name: Get Package Versions
+        run: nuget list id:DotnetPythonHandler | ? { $_ -match "^DotnetPythonHandler\s+" }
