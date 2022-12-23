@@ -1,11 +1,13 @@
 name: Release
 on:
-  push:
+  pull_request:
     branches: ["main"]
+    types: ["closed"]
   workflow_dispatch:
   
 jobs:
   build:
+    if: (!(github.event_name == 'pull_request' && github.event.action == 'closed' && !github.event.pull_request.merged) && !(github.event_name == 'pull_request' && github.event.action == 'labeled' && github.event.label.name != 'publish_nuget'))
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
