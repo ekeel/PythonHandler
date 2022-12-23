@@ -1,20 +1,113 @@
-<a name='assembly'></a>
 # PythonHandler
+
+This package is a wrapper around IronPython allowing for easily running Python scripts.
+
+## Create an IronPython `Handler`
+
+```csharp
+using PythonHandler;
+
+// Create a handler without additional module search paths.
+Handler pythonHandler = new Handler();
+
+// Create a handler with additional module search paths.
+var searchPaths = new List<string>() {"/custom/python/lib"}
+Handler pythonHandler = new Handler(searchPaths);
+```
+
+## Run from String
+
+```csharp
+using PythonHandler;
+
+Handler pythonHandler = new Handler();
+
+// Run an IronPython script from a string without a return value.
+pythonHandler.RunFromString("import sys; sysversion = sys.version");
+
+// Run an IronPython script from a string with a return value.
+var result = pythonHandler.RunFromString<string>("import sys; sysversion = sys.version", "sysversion");
+
+// Run an IronPython script from a string with a return value and additional variables.
+var tdict = new Dictionary<string, object>();
+tdict.Add("testvar", "1ece43cc-b45a-4f97-ba69-5106f23e3932");
+var result = pythonHandler.RunFromString<string>("import sys", "testvar", tdict);
+```
+
+## Run from File
+
+```csharp
+using PythonHandler;
+
+Handler pythonHandler = new Handler();
+
+// Run an IronPython script from a file without a return value.
+pythonHandler.RunFromFile("import sys; sysversion = sys.version");
+
+// Run an IronPython script from a file with a return value.
+var result = pythonHandler.RunFromFile<string>("import sys; sysversion = sys.version", "sysversion");
+
+// Run an IronPython script from a file with a return value and additional variables.
+var tdict = new Dictionary<string, object>();
+tdict.Add("testvar", "1ece43cc-b45a-4f97-ba69-5106f23e3932");
+var result = pythonHandler.RunFromFile<string>("import sys", "testvar", tdict);
+```
 
 ## Contents
 
-- [Handler](#T-PythonHandler-Handler 'PythonHandler.Handler')
-  - [#ctor()](#M-PythonHandler-Handler-#ctor 'PythonHandler.Handler.#ctor')
-  - [#ctor(additionalSearchPaths)](#M-PythonHandler-Handler-#ctor-System-Collections-Generic-ICollection{System-String}- 'PythonHandler.Handler.#ctor(System.Collections.Generic.ICollection{System.String})')
-  - [_scriptEngine](#F-PythonHandler-Handler-_scriptEngine 'PythonHandler.Handler._scriptEngine')
-  - [RunFromFile(scriptFile)](#M-PythonHandler-Handler-RunFromFile-System-String- 'PythonHandler.Handler.RunFromFile(System.String)')
-  - [RunFromFile(scriptFile,variables)](#M-PythonHandler-Handler-RunFromFile-System-String,System-Collections-Generic-Dictionary{System-String,System-Object}- 'PythonHandler.Handler.RunFromFile(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})')
-  - [RunFromFile\`\`1(scriptFile,returnVariable)](#M-PythonHandler-Handler-RunFromFile``1-System-String,System-String- 'PythonHandler.Handler.RunFromFile``1(System.String,System.String)')
-  - [RunFromFile\`\`1(scriptFile,returnVariable,variables)](#M-PythonHandler-Handler-RunFromFile``1-System-String,System-String,System-Collections-Generic-Dictionary{System-String,System-Object}- 'PythonHandler.Handler.RunFromFile``1(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Object})')
-  - [RunFromString(code)](#M-PythonHandler-Handler-RunFromString-System-String- 'PythonHandler.Handler.RunFromString(System.String)')
-  - [RunFromString(code,variables)](#M-PythonHandler-Handler-RunFromString-System-String,System-Collections-Generic-Dictionary{System-String,System-Object}- 'PythonHandler.Handler.RunFromString(System.String,System.Collections.Generic.Dictionary{System.String,System.Object})')
-  - [RunFromString\`\`1(code,returnVariable)](#M-PythonHandler-Handler-RunFromString``1-System-String,System-String- 'PythonHandler.Handler.RunFromString``1(System.String,System.String)')
-  - [RunFromString\`\`1(code,returnVariable,variables)](#M-PythonHandler-Handler-RunFromString``1-System-String,System-String,System-Collections-Generic-Dictionary{System-String,System-Object}- 'PythonHandler.Handler.RunFromString``1(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Object})')
+- [PythonHandler](#pythonhandler)
+  - [Create an IronPython `Handler`](#create-an-ironpython-handler)
+  - [Run from String](#run-from-string)
+  - [Run from File](#run-from-file)
+  - [Contents](#contents)
+  - [Handler `type`](#handler-type)
+        - [Namespace](#namespace)
+        - [Summary](#summary)
+    - [#ctor() `constructor`](#ctor-constructor)
+        - [Summary](#summary-1)
+        - [Parameters](#parameters)
+    - [#ctor(additionalSearchPaths) `constructor`](#ctoradditionalsearchpaths-constructor)
+        - [Summary](#summary-2)
+        - [Parameters](#parameters-1)
+    - [\_scriptEngine `constants`](#_scriptengine-constants)
+        - [Summary](#summary-3)
+    - [RunFromFile(scriptFile) `method`](#runfromfilescriptfile-method)
+        - [Summary](#summary-4)
+        - [Parameters](#parameters-2)
+    - [RunFromFile(scriptFile,variables) `method`](#runfromfilescriptfilevariables-method)
+        - [Summary](#summary-5)
+        - [Parameters](#parameters-3)
+    - [RunFromFile\`\`1(scriptFile,returnVariable) `method`](#runfromfile1scriptfilereturnvariable-method)
+        - [Summary](#summary-6)
+        - [Returns](#returns)
+        - [Parameters](#parameters-4)
+        - [Generic Types](#generic-types)
+        - [Exceptions](#exceptions)
+    - [RunFromFile\`\`1(scriptFile,returnVariable,variables) `method`](#runfromfile1scriptfilereturnvariablevariables-method)
+        - [Summary](#summary-7)
+        - [Returns](#returns-1)
+        - [Parameters](#parameters-5)
+        - [Generic Types](#generic-types-1)
+        - [Exceptions](#exceptions-1)
+    - [RunFromString(code) `method`](#runfromstringcode-method)
+        - [Summary](#summary-8)
+        - [Parameters](#parameters-6)
+    - [RunFromString(code,variables) `method`](#runfromstringcodevariables-method)
+        - [Summary](#summary-9)
+        - [Parameters](#parameters-7)
+    - [RunFromString\`\`1(code,returnVariable) `method`](#runfromstring1codereturnvariable-method)
+        - [Summary](#summary-10)
+        - [Returns](#returns-2)
+        - [Parameters](#parameters-8)
+        - [Generic Types](#generic-types-2)
+        - [Exceptions](#exceptions-2)
+    - [RunFromString\`\`1(code,returnVariable,variables) `method`](#runfromstring1codereturnvariablevariables-method)
+        - [Summary](#summary-11)
+        - [Returns](#returns-3)
+        - [Parameters](#parameters-9)
+        - [Generic Types](#generic-types-3)
+        - [Exceptions](#exceptions-3)
+
 
 <a name='T-PythonHandler-Handler'></a>
 ## Handler `type`

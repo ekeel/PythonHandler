@@ -14,9 +14,8 @@
     <RepositoryUrl>https://github.com/ekeel/PythonHandler</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>python</PackageTags>
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>
-	<DocumentationMarkdown>..\Readme.md</DocumentationMarkdown>
-	<Version>1.0.4</Version>
+	  <Version>1.0.4</Version>
+    <GenerateDocumentationFile>False</GenerateDocumentationFile>
 	<PackageLicenseFile>License.txt</PackageLicenseFile>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
