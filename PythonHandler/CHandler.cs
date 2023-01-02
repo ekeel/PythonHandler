@@ -1,6 +1,3 @@
-<<<<<<< Updated upstream
-using IronPython.Hosting;
-using Microsoft.Scripting.Hosting;
 using Python.Runtime;
 
 namespace PythonHandler
