@@ -12,4 +12,5 @@ jobs:
       - name: "Generate release changelog"
         uses: heinrichreimer/github-changelog-generator-action@v2.3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }} 
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - run: cat /github/workspace/CHANGELOG.md
