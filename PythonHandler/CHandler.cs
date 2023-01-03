@@ -5,10 +5,13 @@ using System.Runtime.InteropServices;
 namespace PythonHandler
 {
     /// <summary>
-    /// Class <c>CHandler</c> handles execution of Python scripts using a local CPython setup.
+    /// Class <c>CHandler</c> handles execution of Python scripts using a local Python setup.
     /// </summary>
     public class CHandler
     {
+        /// <summary>
+		/// This constructor initializes a new <c>CHandler</c> using a .env file.
+		/// </summary>
         public CHandler()
         {
             EnvLoader.LoadEnvFile(".env");
@@ -22,25 +25,26 @@ namespace PythonHandler
                 Runtime.PythonDLL = Environment.GetEnvironmentVariable("PY_HANDLER_LIN_PYTHON_DLL");
         }
 
+        /// <summary>
+        /// This constructor initializes a new <c>CHandler</c>.
+        /// </summary>
+        /// <param name="pythonDllPath">The local path of the Python DLL to use for the runtime.</param>
         public CHandler(string pythonDllPath) 
         {
             Runtime.PythonDLL = pythonDllPath;
         }
 
-        public CHandler(string pythonDllPath, IEnumerable<string> additionalLibPaths)
-        {
-            Runtime.PythonDLL = pythonDllPath;
-        }
-
+        /// <summary>
+        /// This constructor initializes a new <c>CHandler</c>.
+        /// </summary>
+        /// <param name="pythonDllPath">The local path of the Python DLL to use for the runtime.</param>
+        /// <param name="pythonHome">The path to the python home directory.</param>
         public CHandler(string pythonDllPath, string pythonHome)
         {
             Runtime.PythonDLL = pythonDllPath;
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                if (pythonHome == null)
-                    throw new ArgumentNullException("When running on Windows the pythonHome argument must be specified.");
-
                 PythonEngine.PythonHome = pythonHome;
                 string pythonPath = $"{pythonHome};";
 
@@ -52,26 +56,6 @@ namespace PythonHandler
                 }
             }
         }
-
-        //public CHandler(string pythonDllPath, string pythonHome, IEnumerable<string> additionalLibPaths)
-        //{
-        //    Runtime.PythonDLL = pythonDllPath;
-
-        //    PythonEngine.PythonHome = pythonHome;
-        //    string pythonPath = $"{pythonHome};";
-
-        //    string[] pythonSubPaths = { "DLLs", "lib", "lib/site-packages", "lib/site-packages/win32", "lib/site-packages/win32/lib", "lib/site-packages/Pythonwin" };
-
-        //    foreach (string p in pythonSubPaths)
-        //    {
-        //        pythonPath += $"{pythonPath}\\{p};";
-        //    }
-
-        //    foreach(string p in additionalLibPaths)
-        //    {
-        //        pythonPath += $"{p};";
-        //    }
-        //}
 
         /// <summary>
         /// This method runs a string of Python code.
@@ -163,9 +147,9 @@ namespace PythonHandler
         /// </summary>
         /// <param name="code"><c>code</c> is the Python string to execute.</param>
         /// <param name="returnVariable"><c>returnVariable</c> is the variable to read from the scope.</param>
-		/// <returns>The value of the <c>returnVariable</c> from the scope.</returns>
-		/// <exception cref="KeyNotFoundException">The <c>returnVariable</c> was not found.</exception>
         /// <param name="variables"><c>variables</c> is an <c>Dictionary</c> containing the key/values of variables to set. </param>
+		/// <exception cref="KeyNotFoundException">The <c>returnVariable</c> was not found.</exception>
+		/// <returns>The value of the <c>returnVariable</c> from the scope.</returns>
         public TResult RunFromString<TResult>(string code, string returnVariable, Dictionary<string, object> variables)
         {
             try
@@ -255,8 +239,8 @@ namespace PythonHandler
         /// </summary>
         /// <param name="scriptFile"><c>scriptFile</c> is the path to the Python script to execute.</param>
         /// <param name="returnVariable"><c>returnVariable</c> is the variable to read from the scope.</param>
-		/// <returns>The value of the <c>returnVariable</c> from the scope.</returns>
 		/// <exception cref="KeyNotFoundException">The <c>returnVariable</c> was not found.</exception>
+		/// <returns>The value of the <c>returnVariable</c> from the scope.</returns>
         public TResult RunFromFile<TResult>(string scriptFile, string returnVariable)
         {
             try
@@ -288,9 +272,9 @@ namespace PythonHandler
         /// </summary>
         /// <param name="scriptFile"><c>scriptFile</c> is the path to the Python script to execute.</param>
         /// <param name="returnVariable"><c>returnVariable</c> is the variable to read from the scope.</param>
+        /// <param name="variables"><c>variables</c> is an <c>Dictionary</c> containing the key/values of variables to set. </param>
 		/// <returns>The value of the <c>returnVariable</c> from the scope.</returns>
 		/// <exception cref="KeyNotFoundException">The <c>returnVariable</c> was not found.</exception>
-        /// <param name="variables"><c>variables</c> is an <c>Dictionary</c> containing the key/values of variables to set. </param>
         public TResult RunFromFile<TResult>(string scriptFile, string returnVariable, Dictionary<string, object> variables)
         {
             try
