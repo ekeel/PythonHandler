@@ -22,7 +22,6 @@ jobs:
       - name: Test
         run: dotnet test --no-build --verbosity normal -c Release
       - name: Push to Nuget
-        if:  contains(github.event.pull_request.labels.*.name, 'publish_nuget')
         run: |
             files=( ./PythonHandler/bin/Release/*.nupkg )
             dotnet nuget push "${files[0]}" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
