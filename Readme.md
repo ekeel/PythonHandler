@@ -2,6 +2,9 @@
 
 This package is a wrapper around IronPython allowing for easily running Python scripts.
 
+[![Validate](https://github.com/ekeel/PythonHandler/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/ekeel/PythonHandler/actions/workflows/test.yml)
+[![Release](https://github.com/ekeel/PythonHandler/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/ekeel/PythonHandler/actions/workflows/release.yml)
+
 ## Create an IronPython `Handler`
 
 ```csharp
