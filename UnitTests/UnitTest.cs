@@ -1,18 +1,28 @@
 using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.Resources;
 using PythonHandler;
+using System.Reflection.Metadata;
+using System.Runtime.InteropServices;
 
 namespace UnitTests
 {
 	public class Tests
 	{
 		string testScriptString, testFilePath;
+		CHandler cHandler;
 
-		[SetUp]
+        [SetUp]
 		public void Setup()
 		{
 			testScriptString = "import sys; sysversion = sys.version";
 			testFilePath = Path.Combine("resources", "test_file.py");
-		}
+
+            EnvLoader.LoadEnvFile("../../../../TestShell/bin/Release/net6.0/.env");
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                cHandler = new CHandler(Environment.GetEnvironmentVariable("PY_HANDLER_WIN_PYTHON_DLL"), Environment.GetEnvironmentVariable("PY_HANDLER_WIN_PYTHON_HOME"));
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                cHandler = new CHandler(Environment.GetEnvironmentVariable("PY_HANDLER_LIN_PYTHON_DLL"));
+        }
 
 		[Test]
 		public void IronPythonRunFromStringWithoutReturn()
@@ -83,8 +93,7 @@ namespace UnitTests
         [Test]
         public void CPythonRunFromStringWithoutReturn()
         {
-            CHandler pythonHandler = new CHandler(@"C:\Users\Erick\.pyenv\pyenv-win\versions\3.10.5\python310.dll", @"C:\Users\Erick\.pyenv\pyenv-win\versions\3.10.5");
-            pythonHandler.RunFromString(testScriptString);
+            cHandler.RunFromString(testScriptString);
 
             Assert.Pass();
         }
@@ -92,55 +101,52 @@ namespace UnitTests
         [Test]
         public void CPythonRunFromStringWithReturn()
         {
-            CHandler pythonHandler = new CHandler(@"C:\Users\Erick\.pyenv\pyenv-win\versions\3.10.5\python310.dll", @"C:\Users\Erick\.pyenv\pyenv-win\versions\3.10.5");
-            var result = pythonHandler.RunFromString<string>(testScriptString, "sysversion");
+            var result = cHandler.RunFromString<string>(testScriptString, "sysversion");
 
             Assert.IsNotEmpty(result);
         }
 
-		[Test]
-		public void CPythonRunFromStringWithAdditionalVariablesTest()
-		{
-			var tdict = new Dictionary<string, object>();
-			tdict.Add("testvar", "1ece43cc-b45a-4f97-ba69-5106f23e3932");
+        [Test]
+        public void CPythonRunFromStringWithAdditionalVariablesTest()
+        {
+            var tdict = new Dictionary<string, object>();
+            tdict.Add("testvar", "1ece43cc-b45a-4f97-ba69-5106f23e3932");
 
-			CHandler pythonHandler = new CHandler(@"C:\Users\Erick\.pyenv\pyenv-win\versions\3.10.5\python310.dll", @"C:\Users\Erick\.pyenv\pyenv-win\versions\3.10.5");
-			var result = pythonHandler.RunFromString<string>(testScriptString, "testvar", tdict);
+            var result = cHandler.RunFromString<string>(testScriptString, "testvar", tdict);
 
-			Assert.IsNotEmpty(result);
-			Assert.That(result, Is.EqualTo("1ece43cc-b45a-4f97-ba69-5106f23e3932"));
-		}
+            Assert.IsNotEmpty(result);
+            Assert.That(result, Is.EqualTo("1ece43cc-b45a-4f97-ba69-5106f23e3932"));
+        }
 
 
-		[Test]
-		public void CPythonRunFromFileWithoutReturn()
-		{
-			CHandler pythonHandler = new CHandler(@"C:\Users\Erick\.pyenv\pyenv-win\versions\3.10.5\python310.dll", @"C:\Users\Erick\.pyenv\pyenv-win\versions\3.10.5");
-			pythonHandler.RunFromFile(testFilePath);
+        [Test]
+        public void CPythonRunFromFileWithoutReturn()
+        {
+            cHandler.RunFromFile(testFilePath);
 
-			Assert.Pass();
-		}
+            Assert.Pass();
+        }
 
-		[Test]
-		public void CPythonRunFromFileWithReturn()
-		{
-			CHandler pythonHandler = new CHandler(@"C:\Users\Erick\.pyenv\pyenv-win\versions\3.10.5\python310.dll", @"C:\Users\Erick\.pyenv\pyenv-win\versions\3.10.5");
-			var result = pythonHandler.RunFromFile<string>(testFilePath, "sysversion");
+        [Test]
+        public void CPythonRunFromFileWithReturn()
+        {
+            var result = cHandler.RunFromFile<string>(testFilePath, "sysversion");
 
-			Assert.IsNotEmpty(result);
-		}
+            Assert.IsNotEmpty(result);
+        }
 
-		[Test]
-		public void CPythonRunFromFileWithAdditionalVariablesTest()
-		{
-			var tdict = new Dictionary<string, object>();
-			tdict.Add("testvar", "1ece43cc-b45a-4f97-ba69-5106f23e3932");
+        [Test]
+        public void CPythonRunFromFileWithAdditionalVariablesTest()
+        {
+            var tdict = new Dictionary<string, object>
+            {
+                { "testvar", "1ece43cc-b45a-4f97-ba69-5106f23e3932" }
+            };
 
-			CHandler pythonHandler = new CHandler(@"C:\Users\Erick\.pyenv\pyenv-win\versions\3.10.5\python310.dll", @"C:\Users\Erick\.pyenv\pyenv-win\versions\3.10.5");
-			var result = pythonHandler.RunFromFile<string>(testFilePath, "testvar", tdict);
+            var result = cHandler.RunFromFile<string>(testFilePath, "testvar", tdict);
 
-			Assert.IsNotEmpty(result);
-			Assert.That(result, Is.EqualTo("1ece43cc-b45a-4f97-ba69-5106f23e3932"));
-		}
-	}
+            Assert.IsNotEmpty(result);
+            Assert.That(result, Is.EqualTo("1ece43cc-b45a-4f97-ba69-5106f23e3932"));
+        }
+    }
 }

@@ -1,20 +1,46 @@
 using Python.Runtime;
+using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
 
 namespace PythonHandler
 {
+    /// <summary>
+    /// Class <c>CHandler</c> handles execution of Python scripts using a local CPython setup.
+    /// </summary>
     public class CHandler
     {
-        public CHandler(string pythonDllPath, string? pythonHome) 
+        public CHandler()
         {
+            EnvLoader.LoadEnvFile(".env");
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                Runtime.PythonDLL = Environment.GetEnvironmentVariable("PY_HANDLER_WIN_PYTHON_DLL");
+                PythonEngine.PythonHome = Environment.GetEnvironmentVariable("PY_HANDLER_WIN_PYTHON_HOME");
+            }
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                Runtime.PythonDLL = pythonDllPath;
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                Runtime.PythonDLL = Environment.GetEnvironmentVariable("PY_HANDLER_LIN_PYTHON_DLL");
+        }
+
+        public CHandler(string pythonDllPath) 
+        {
+            Runtime.PythonDLL = pythonDllPath;
+        }
+
+        public CHandler(string pythonDllPath, IEnumerable<string> additionalLibPaths)
+        {
+            Runtime.PythonDLL = pythonDllPath;
+        }
+
+        public CHandler(string pythonDllPath, string pythonHome)
+        {
+            Runtime.PythonDLL = pythonDllPath;
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 if (pythonHome == null)
                     throw new ArgumentNullException("When running on Windows the pythonHome argument must be specified.");
 
-                Runtime.PythonDLL =pythonDllPath;
                 PythonEngine.PythonHome = pythonHome;
                 string pythonPath = $"{pythonHome};";
 
@@ -26,6 +52,26 @@ namespace PythonHandler
                 }
             }
         }
+
+        //public CHandler(string pythonDllPath, string pythonHome, IEnumerable<string> additionalLibPaths)
+        //{
+        //    Runtime.PythonDLL = pythonDllPath;
+
+        //    PythonEngine.PythonHome = pythonHome;
+        //    string pythonPath = $"{pythonHome};";
+
+        //    string[] pythonSubPaths = { "DLLs", "lib", "lib/site-packages", "lib/site-packages/win32", "lib/site-packages/win32/lib", "lib/site-packages/Pythonwin" };
+
+        //    foreach (string p in pythonSubPaths)
+        //    {
+        //        pythonPath += $"{pythonPath}\\{p};";
+        //    }
+
+        //    foreach(string p in additionalLibPaths)
+        //    {
+        //        pythonPath += $"{p};";
+        //    }
+        //}
 
         /// <summary>
         /// This method runs a string of Python code.
