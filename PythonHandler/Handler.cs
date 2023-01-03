@@ -17,7 +17,7 @@ namespace PythonHandler
 		/// This constructor initializes a new <c>Handler</c>.
 		/// </summary>
 		public Handler() {
-			_scriptEngine = Python.CreateEngine();
+			_scriptEngine = IronPython.Hosting.Python.CreateEngine();
 		}
 
 		/// <summary>
@@ -26,7 +26,7 @@ namespace PythonHandler
 		/// <param name="additionalSearchPaths"><c>additionalSearchPaths</c> is a collection of addtional module search paths to add to the IronPython scope.</param>
 		public Handler(ICollection<string> additionalSearchPaths)
 		{
-			_scriptEngine = Python.CreateEngine();
+			_scriptEngine = IronPython.Hosting.Python.CreateEngine();
 			
 			var searchPaths = _scriptEngine.GetSearchPaths();
 			foreach(var searchPath in additionalSearchPaths)

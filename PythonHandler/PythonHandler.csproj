@@ -14,7 +14,7 @@
     <RepositoryUrl>https://github.com/ekeel/PythonHandler</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>python</PackageTags>
-	  <Version>1.0.4</Version>
+	  <Version>1.1.0</Version>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
 	<PackageLicenseFile>License.txt</PackageLicenseFile>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
@@ -23,6 +23,7 @@
   <ItemGroup>
     <PackageReference Include="IronPython" Version="3.4.0" />
     <PackageReference Include="IronPython.StdLib" Version="3.4.0" />
+    <PackageReference Include="pythonnet" Version="3.0.1" />
     <PackageReference Include="Vsxmd" Version="1.4.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
